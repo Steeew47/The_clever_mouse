@@ -10,12 +10,16 @@ public class GameView extends View {
 
     private Bitmap mouse;
 
+    public int screenHeight = getResources().getDisplayMetrics().heightPixels;
+    public int screenWidth = getResources().getDisplayMetrics().widthPixels;
+    public int mouse_size = screenWidth/5;
+
+
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
 
         canvas.drawBitmap(mouse,0,0,null);
     }
@@ -24,7 +28,7 @@ public class GameView extends View {
 
         super(context);
 
-        mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),200,200,false);
+        mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),mouse_size,mouse_size+125,false);
 
 
     }
