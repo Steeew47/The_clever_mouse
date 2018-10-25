@@ -71,18 +71,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG_GestureDetector, "onLongPress: ");
         }
 
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            Log.i(TAG_GestureDetector, "onDoubleTap: ");
-            return true;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                float distanceX, float distanceY) {
-            Log.i(TAG_GestureDetector, "onScroll: ");
-            return true;
-        }
 
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2,

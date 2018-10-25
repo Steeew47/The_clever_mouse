@@ -26,7 +26,6 @@ public class GameView extends View {
     public GameView(Context context) {
 
         super(context);
-
         mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),mouse_size,mouse_size+125,false);
 
 
