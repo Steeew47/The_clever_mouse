@@ -12,7 +12,7 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
-    private final static long TIMER_INTERVAL = 30;
+    private final static long TIMER_INTERVAL = 1;
     private GameView gameView;
 
 
@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onSwipeRight() {
                 Log.d(TAG_GestureDetector,"rightSwipe");
-                gameView.pm.moveDirection = 0;
+                gameView.pm.moveDirection = 1;
                 Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
             }
             public void onSwipeLeft() {
                 Log.d(TAG_GestureDetector,"leftSwipe");
-                gameView.pm.moveDirection = 1;
+                gameView.pm.moveDirection = -1;
                 Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
             }
             public void onSwipeBottom() {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
+        Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         gameView.invalidate();
+                        gameView.pm.moveDirection = 0;
+                        Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
                     }
                 });
             }
