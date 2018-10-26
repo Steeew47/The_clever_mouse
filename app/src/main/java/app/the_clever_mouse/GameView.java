@@ -6,28 +6,42 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.View;
 
+
+
 public class GameView extends View {
 
     private Bitmap mouse;
+
 
     public int screenHeight = getResources().getDisplayMetrics().heightPixels;
     public int screenWidth = getResources().getDisplayMetrics().widthPixels;
     public int mouse_size = screenWidth/5;
 
+    public PlayerMove pm = new PlayerMove();
+
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
-        canvas.drawBitmap(mouse,0,0,null);
+        if(pm.moveDirection == 1){
+            canvas.drawBitmap(mouse,0,0,null);
+        }
+        if(pm.moveDirection == 0){
+            canvas.drawBitmap(mouse,mouse_size,0,null);
+        }
+
     }
 
-    public GameView(Context context) {
 
+    public GameView(Context context) {
         super(context);
+
         mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),mouse_size,mouse_size+125,false);
 
 
     }
+
+
 }
+
