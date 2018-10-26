@@ -41,7 +41,7 @@ public class GameView extends View {
             canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
         }
         if(pm.moveDirection == 1){
-            // TUTAJ MAMY BLAD
+
             if(a_mousePos>=mousePos[4]){
                 canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
             }else{

@@ -31,16 +31,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setContentView(gameView);
 
-        //gd = new GestureDetector(this, new MyGestureListener());
-
 
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Timer timer = new Timer();
-
-
-
 
 
 
@@ -72,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         gameView.invalidate();
                         gameView.pm.moveDirection = 0;
-                        Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
+                        //Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
                     }
                 });
             }
