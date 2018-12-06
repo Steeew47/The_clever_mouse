@@ -35,8 +35,8 @@ public class GameThread extends Thread {
             try{
                 canvas = gameView.getHolder().lockCanvas();
                 synchronized (gameView.getHolder()){
-
-                    gameView.Fix_onDraw(canvas);
+                    gameView._onDraw(canvas);
+                    MainActivity.player.moveDirection = 0;
                 }
             }catch(Exception e){
                 e.printStackTrace();
@@ -66,6 +66,9 @@ public class GameThread extends Thread {
                 frameCount = 0;
                 totalTime = 0;
                 System.out.println(avgFPS);
+
+                //MainActivity.player.moveDirection = 0;
+                //System.out.println(MainActivity.player.moveDirection);
             }
 
             }

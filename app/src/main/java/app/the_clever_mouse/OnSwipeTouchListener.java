@@ -22,8 +22,8 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
     private final class GestureListener extends SimpleOnGestureListener {
 
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+        private static final int SWIPE_THRESHOLD = 10;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 10;
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
@@ -38,10 +38,8 @@ public class OnSwipeTouchListener implements OnTouchListener {
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX < 0) {
-                            MainActivity.player.moveDirection = 0;
                             onSwipeLeft();
                         }else{
-                            MainActivity.player.moveDirection = 0;
                             onSwipeRight();
                         }
                         result = true;
