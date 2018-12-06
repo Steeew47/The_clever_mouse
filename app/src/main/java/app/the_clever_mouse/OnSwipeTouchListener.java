@@ -10,7 +10,6 @@ import android.view.View.OnTouchListener;
 public class OnSwipeTouchListener implements OnTouchListener {
 
     private final GestureDetector gestureDetector;
-
     public OnSwipeTouchListener (Context ctx){
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
@@ -20,11 +19,11 @@ public class OnSwipeTouchListener implements OnTouchListener {
         return gestureDetector.onTouchEvent(event);
     }
 
+
     private final class GestureListener extends SimpleOnGestureListener {
 
         private static final int SWIPE_THRESHOLD = 100;
         private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
@@ -38,12 +37,12 @@ public class OnSwipeTouchListener implements OnTouchListener {
                 float diffX = e2.getX() - e1.getX();
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffX > 0) {
-                            onSwipeRight();
-
-                        } else {
+                        if (diffX < 0) {
+                            MainActivity.player.moveDirection = 0;
                             onSwipeLeft();
-
+                        }else{
+                            MainActivity.player.moveDirection = 0;
+                            onSwipeRight();
                         }
                         result = true;
                     }

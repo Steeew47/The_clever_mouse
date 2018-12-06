@@ -1,5 +1,6 @@
 package app.the_clever_mouse;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +10,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
+
 public class MainActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
     private final static long TIMER_INTERVAL = 1;
     private GameView gameView;
-
-
+    static Player player;
 
     //LOGCAT TAGS
     String TAG_GestureDetector = "GestureDetector";
@@ -23,19 +24,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         gameView = new GameView(this);
+
+        player = new Player();
 
         setContentView(R.layout.activity_main);
         setContentView(gameView);
 
 
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Timer timer = new Timer();
 
 
 
@@ -45,36 +48,24 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onSwipeRight() {
                 Log.d(TAG_GestureDetector,"rightSwipe");
-                gameView.pm.moveDirection = 1;
-                Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
+                player.moveDirection = 1;
+                Log.d(TAG_GestureDetector,Integer.toString(player.moveDirection));
             }
             public void onSwipeLeft() {
                 Log.d(TAG_GestureDetector,"leftSwipe");
-                gameView.pm.moveDirection = -1;
-                Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
+                player.moveDirection = -1;
+                Log.d(TAG_GestureDetector,Integer.toString(player.moveDirection));
             }
             public void onSwipeBottom() {
                 Log.d(TAG_GestureDetector,"bottomSwipe");
             }
 
         });
-        Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        gameView.invalidate();
-                        gameView.pm.moveDirection = 0;
-                        //Log.d(TAG_GestureDetector,Integer.toString(gameView.pm.moveDirection));
-                    }
-                });
-            }
-        },0,TIMER_INTERVAL);
+        Log.d(TAG_GestureDetector,Integer.toString(player.moveDirection));
+
 
     }
 
-
+    //moveDirectio nie jest zerowany !!
 
 }
