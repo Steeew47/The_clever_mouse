@@ -113,41 +113,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     protected void _onDraw(Canvas canvas) {
 
-        mousePos[2] = mouse_size*2;
-        mousePos[0] = 0;
-        mousePos[1] = mouse_size;
-        mousePos[3] = mouse_size*3;
-        mousePos[4] = mouse_size*4;
-
         canvas.drawColor(Color.BLACK);
-
-
-
         lvlPrint(canvas);
         lifePrint(canvas);
-        //TODO: na początku gry ma sia pojawiac na srodku ekranu pozycja mouse_size * 2
+        player._onDraw(canvas);
 
-        if(MainActivity.player.moveDirection == 0){
-            canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
-        }
-        if(MainActivity.player.moveDirection == 1){
 
-            if(MainActivity.player.currentPos>=mousePos[4]){
-                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
-            }else{
-                MainActivity.player.currentPos = MainActivity.player.currentPos+mouse_size;
-                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
-            }
-
-        }
-        if(MainActivity.player.moveDirection == -1){
-            if(MainActivity.player.currentPos<=mousePos[0]){
-                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
-            }else{
-                MainActivity.player.currentPos = MainActivity.player.currentPos-mouse_size;
-                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
-            }
-        }
 
     }
 

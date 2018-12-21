@@ -12,16 +12,28 @@ public class Player {
     int playerLife = 1;
 
 
-    private int x = 0;
-    private int xSpeed = 5;
     private GameView gameView;
     private Bitmap bmp;
 
+    public int topPos;
+    public int[] mousePos = new int[5];
 
-    public Player(GameView gameView, Bitmap bmp){
+
+
+
+
+    public Player(GameView gameView, Bitmap bmp)    {
         this.gameView = gameView;
         this.bmp = bmp;
 
+        topPos = gameView.screenHeight-gameView.mouse_size-200;
+
+        mousePos[2] = gameView.mouse_size*2;
+        mousePos[0] = 0;
+        mousePos[1] = gameView.mouse_size;
+        mousePos[3] = gameView.mouse_size*3;
+        mousePos[4] = gameView.mouse_size*4;
+        currentPos = mousePos[2];
     }
 
     public Player(){
@@ -30,10 +42,22 @@ public class Player {
 
     private void update(){
 
+        if(MainActivity.player.moveDirection == 1){
+            if(currentPos<mousePos[4]) {
+                currentPos = currentPos + gameView.mouse_size;
+            }
+        }
+        if(MainActivity.player.moveDirection == -1){
+            if(currentPos>mousePos[0]){
+                currentPos = currentPos - gameView.mouse_size;
+            }
+        }
+
+
     }
 
     public void _onDraw(Canvas canvas){
         update();
-        canvas.drawBitmap(bmp,x,10,null);
+        canvas.drawBitmap(bmp,currentPos,topPos,null);
     }
 }
