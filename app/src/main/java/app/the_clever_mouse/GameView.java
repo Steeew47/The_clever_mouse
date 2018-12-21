@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.GestureDetector;
@@ -16,17 +17,17 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
-    private Bitmap mouse;
+    private Bitmap mouse, heart;
     public int screenHeight = getResources().getDisplayMetrics().heightPixels;
     public int screenWidth = getResources().getDisplayMetrics().widthPixels;
     public int mouse_size = screenWidth/5;
+    public int heart_size = screenWidth/10;
+
     public int[] mousePos = new int[5];
-    int a_mousePos = mouse_size*2;
 
-    private static final int SWIPE_THRESHOLD = 100;
-    private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
-    private int x = 0;
+
+
 
     private SurfaceHolder holder;
     private GameThread thread;
@@ -42,7 +43,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         thread = new GameThread(getHolder(),this);
 
         mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),mouse_size,mouse_size+125,false);
-
+        heart = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.heart),heart_size,heart_size,false);
         setFocusable(true);
 
         player = new Player(this,mouse);
@@ -82,6 +83,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     }
 
+    public void lifePrint(Canvas canvas){
+        if(MainActivity.player.playerLife == 3){
+            canvas.drawBitmap(heart,0,10,null);
+            canvas.drawBitmap(heart,mouse_size/2,10,null);
+            canvas.drawBitmap(heart,mouse_size,10,null);
+        }
+        if(MainActivity.player.playerLife == 2){
+            canvas.drawBitmap(heart,0,10,null);
+            canvas.drawBitmap(heart,mouse_size/2,10,null);
+        }
+        if(MainActivity.player.playerLife == 1){
+            canvas.drawBitmap(heart,0,10,null);
+
+        }
+
+    }
+    public void lvlPrint(Canvas canvas){
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawPaint(paint);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(38);
+        String levelString = "Level : "+ Integer.toString(MainActivity.player.level);
+        canvas.drawText(levelString, screenWidth/2, 50, paint);
+    }
+
 
     protected void _onDraw(Canvas canvas) {
 
@@ -95,26 +123,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 
 
+        lvlPrint(canvas);
+        lifePrint(canvas);
+        //TODO: na początku gry ma sia pojawiac na srodku ekranu pozycja mouse_size * 2
 
         if(MainActivity.player.moveDirection == 0){
-            canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
+            canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
         }
         if(MainActivity.player.moveDirection == 1){
 
-            if(a_mousePos>=mousePos[4]){
-                canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
+            if(MainActivity.player.currentPos>=mousePos[4]){
+                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
             }else{
-                a_mousePos = a_mousePos+mouse_size;
-                canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
+                MainActivity.player.currentPos = MainActivity.player.currentPos+mouse_size;
+                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
             }
 
         }
         if(MainActivity.player.moveDirection == -1){
-            if(a_mousePos<=mousePos[0]){
-                canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
+            if(MainActivity.player.currentPos<=mousePos[0]){
+                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
             }else{
-                a_mousePos = a_mousePos-mouse_size;
-                canvas.drawBitmap(mouse,a_mousePos,screenHeight-mouse_size-200,null);
+                MainActivity.player.currentPos = MainActivity.player.currentPos-mouse_size;
+                canvas.drawBitmap(mouse,MainActivity.player.currentPos,screenHeight-mouse_size-200,null);
             }
         }
 

@@ -8,6 +8,10 @@ public class Player {
     int currentPos;
     int moveDirection;
 
+    int level = 1;
+    int playerLife = 1;
+
+
     private int x = 0;
     private int xSpeed = 5;
     private GameView gameView;
@@ -25,13 +29,7 @@ public class Player {
     }
 
     private void update(){
-        if (x > gameView.getWidth() - bmp.getWidth() - xSpeed) {
-            xSpeed = -5;
-        }
-        if (x + xSpeed< 0) {
-            xSpeed = 5;
-        }
-        x = x + xSpeed;
+
     }
 
     public void _onDraw(Canvas canvas){
