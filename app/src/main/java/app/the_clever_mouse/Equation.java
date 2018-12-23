@@ -12,9 +12,14 @@ public class Equation {
     public Random random;
     private Paint paint;
 
-    int a = 2;
-    int b = 10;
+    int a,b,sign;
     int result;
+
+
+
+    public void genereteNew(){
+
+    }
 
 
     public Equation(GameView gameView) {
@@ -26,13 +31,14 @@ public class Equation {
 
 
     }
-    private void update(){
 
+    private void update(){
+        result = a + b;
     }
 
     public void _onDraw(Canvas canvas){
         update();
-        canvas.drawText(Integer.toString(a)+Integer.toString(b),400,400,paint);
+        canvas.drawText(Integer.toString(a)+" + "+Integer.toString(b)+" = "+Integer.toString(result),400,400,paint);
     }
 
 }

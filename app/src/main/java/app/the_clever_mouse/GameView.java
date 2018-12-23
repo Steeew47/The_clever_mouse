@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
@@ -41,7 +42,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private GameThread thread;
     private Player player;
     private AnswerCheese answerCheese;
-    private Equation equation;
+    public Equation equation;
+
+    Random random = new Random();
 
     public AnswerCheese[] createCheese(){
         cheeseObject = new AnswerCheese[5];
@@ -76,6 +79,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         thread.setRunning(true);
         createCheese();
         thread.start();
+        equation.a = random.nextInt(5);
+        equation.b = random.nextInt(5);
 
     }
 
@@ -130,6 +135,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         String levelString = "Level : "+ Integer.toString(MainActivity.player.level);
         canvas.drawText(levelString, screenWidth/2, 50, paint);
         canvas.drawText(Integer.toString(MainActivity.player.score),screenWidth/2,150,paint);
+        canvas.drawText(Boolean.toString(this.randomResults.isResult),screenWidth/2,200,paint);
     }
 
 
@@ -139,22 +145,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         lvlPrint(canvas);
         lifePrint(canvas);
         equation._onDraw(canvas);
+
         for(int i=0; i<5; i++){
             cheeseObject[i]._onDraw(canvas);
         }
-        if(cheeseObject[1].nextTurn == true){
-            randomResults.getRandomResults();
-            for(int i=0;i<5;i++){
-                cheeseObject[i].result = randomResults.result[i];
-            }
-            cheeseObject[1].nextTurn = false;
-        }
+        endofTurn();
         player._onDraw(canvas);
 
 
 
 
 
+    }
+
+    public void endofTurn(){
+        if(cheeseObject[1].nextTurn == true){
+            randomResults.getRandomResults(this);
+            equation.a = random.nextInt(5);
+            equation.b = random.nextInt(5);
+            for(int i=0;i<5;i++){
+                cheeseObject[i].result = equation.result;//randomResults.result[i];
+                if(randomResults.result[i] == equation.result)randomResults.isResult = true;
+
+            }
+
+            if(randomResults.isResult = false){
+                int x = random.nextInt(4);
+                cheeseObject[x].result = equation.result;
+                randomResults.isResult = true;
+            }
+
+            cheeseObject[1].nextTurn = false;
+        }
     }
 
     @Override

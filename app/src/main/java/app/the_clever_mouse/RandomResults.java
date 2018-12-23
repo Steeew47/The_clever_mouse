@@ -2,16 +2,18 @@ package app.the_clever_mouse;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class RandomResults{
 
-    public boolean shuffleIt;
+    public boolean isResult;
     public int[] result = new int[5];
+    Random random = new Random();
 
     public RandomResults(){}
 
 
-    public void getRandomResults(){
+    public void getRandomResults(GameView gameView){
 
 
 
@@ -21,14 +23,10 @@ public class RandomResults{
         }
         Collections.shuffle(list);
 
-        result[0] = list.get(0);
-        result[1] = list.get(1);
-        result[2] = list.get(2);
-        result[3] = list.get(3);
-        result[4] = list.get(4);
 
-
-
+        for(int i=0; i<5; i++){
+            result[i] = list.get(i);
+        }
 
 
     }

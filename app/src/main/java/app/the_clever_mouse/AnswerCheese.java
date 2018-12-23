@@ -19,6 +19,8 @@ public class AnswerCheese {
     int ySpeed = 4;
     private Paint paint;
 
+    Random random = new Random();
+
     public int result = 0;
     int idIndex;
     public boolean nextTurn;
@@ -63,6 +65,8 @@ public class AnswerCheese {
         if(y >= gameView.screenHeight-gameView.mouse_size){
             y = 0;
             nextTurn = true;
+            gameView.equation.genereteNew();
+
         }
     }
 
