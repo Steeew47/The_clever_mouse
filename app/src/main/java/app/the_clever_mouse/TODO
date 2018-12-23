@@ -2,3 +2,5 @@
 
 1.  Wolna detekcja przesuniecia palca po ekranie. Mały refresh rate ?
     Przesunac moze z MainActiviti do GameView...
+
+2.  Detekcja kolizji i sprawdzanie wyniku z rownaniem + generator rownan

@@ -34,7 +34,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public int gamePanelD = bottomPanelU;
 
     public AnswerCheese[] cheeseObject;
-
+    RandomResults randomResults = new RandomResults();
 
 
     private SurfaceHolder holder;
@@ -129,6 +129,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         paint.setTextSize(38);
         String levelString = "Level : "+ Integer.toString(MainActivity.player.level);
         canvas.drawText(levelString, screenWidth/2, 50, paint);
+        canvas.drawText(Integer.toString(MainActivity.player.score),screenWidth/2,150,paint);
     }
 
 
@@ -137,11 +138,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         canvas.drawColor(Color.BLACK);
         lvlPrint(canvas);
         lifePrint(canvas);
-        player._onDraw(canvas);
         equation._onDraw(canvas);
         for(int i=0; i<5; i++){
             cheeseObject[i]._onDraw(canvas);
         }
+        if(cheeseObject[1].nextTurn == true){
+            randomResults.getRandomResults();
+            for(int i=0;i<5;i++){
+                cheeseObject[i].result = randomResults.result[i];
+            }
+            cheeseObject[1].nextTurn = false;
+        }
+        player._onDraw(canvas);
 
 
 

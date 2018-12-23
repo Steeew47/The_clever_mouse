@@ -10,6 +10,7 @@ public class Player {
 
     int level = 1;
     int playerLife = 3;
+    int score = 0;
 
 
     private GameView gameView;
