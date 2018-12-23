@@ -9,7 +9,7 @@ public class Player {
     int moveDirection;
 
     int level = 1;
-    int playerLife = 1;
+    int playerLife = 3;
 
 
     private GameView gameView;

@@ -9,6 +9,7 @@ public class GameThread extends Thread {
     private double avgFPS;
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
+    private AnswerCheese answerCheese;
     private boolean running;
     public static Canvas canvas;
 
@@ -36,6 +37,7 @@ public class GameThread extends Thread {
                 canvas = gameView.getHolder().lockCanvas();
                 synchronized (gameView.getHolder()){
                     gameView._onDraw(canvas);
+
                     MainActivity.player.moveDirection = 0;
                 }
             }catch(Exception e){

@@ -14,24 +14,43 @@ import android.content.Context;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
-    private Bitmap mouse, heart;
+    private Bitmap mouse, heart, cheese;
+
     public int screenHeight = getResources().getDisplayMetrics().heightPixels;
     public int screenWidth = getResources().getDisplayMetrics().widthPixels;
     public int mouse_size = screenWidth/5;
     public int heart_size = screenWidth/10;
 
-    public int[] mousePos = new int[5];
+    public int topPanelU = 0;
+    public int topPanelD ;
+    public int bottomPanelD = screenHeight;
+    public int bottomPanelU = screenHeight-mouse_size;
+    public int gamePanelD = bottomPanelU;
 
-
+    public AnswerCheese[] cheeseObject;
 
 
 
     private SurfaceHolder holder;
     private GameThread thread;
     private Player player;
+    private AnswerCheese answerCheese;
+    private Equation equation;
+
+    public AnswerCheese[] createCheese(){
+        cheeseObject = new AnswerCheese[5];
+        for(int i=0; i<5;i++){
+            cheeseObject[i] = new AnswerCheese(this,cheese,i);
+        }
+        return cheeseObject;
+    }
+
 
 
     public GameView(Context context) {
@@ -45,15 +64,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),mouse_size,mouse_size+125,false);
         heart = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.heart),heart_size,heart_size,false);
         setFocusable(true);
+        cheese = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.cheese),mouse_size,mouse_size+125,false);
 
         player = new Player(this,mouse);
-
+        equation = new Equation(this);
     }
 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         thread.setRunning(true);
+        createCheese();
         thread.start();
 
     }
@@ -86,12 +107,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void lifePrint(Canvas canvas){
         if(MainActivity.player.playerLife == 3){
             canvas.drawBitmap(heart,0,10,null);
-            canvas.drawBitmap(heart,mouse_size/2,10,null);
-            canvas.drawBitmap(heart,mouse_size,10,null);
+            canvas.drawBitmap(heart,heart_size,10,null);
+            canvas.drawBitmap(heart,heart_size*2,10,null);
         }
         if(MainActivity.player.playerLife == 2){
             canvas.drawBitmap(heart,0,10,null);
-            canvas.drawBitmap(heart,mouse_size/2,10,null);
+            canvas.drawBitmap(heart,heart_size,10,null);
         }
         if(MainActivity.player.playerLife == 1){
             canvas.drawBitmap(heart,0,10,null);
@@ -117,6 +138,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         lvlPrint(canvas);
         lifePrint(canvas);
         player._onDraw(canvas);
+        equation._onDraw(canvas);
+        for(int i=0; i<5; i++){
+            cheeseObject[i]._onDraw(canvas);
+        }
+
+
 
 
 
