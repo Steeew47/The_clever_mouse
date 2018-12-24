@@ -7,7 +7,7 @@ import java.util.Random;
 public class RandomResults{
 
     public boolean isResult;
-    public int[] result = new int[5];
+    public int[] result = new int[7];
     Random random = new Random();
 
     public RandomResults(){}
@@ -24,7 +24,7 @@ public class RandomResults{
         Collections.shuffle(list);
 
 
-        for(int i=0; i<5; i++){
+        for(int i=0; i<7; i++){
             result[i] = list.get(i);
         }
 

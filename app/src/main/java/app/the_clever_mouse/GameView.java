@@ -150,10 +150,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void endofTurn(){
         if(cheeseObject.nextTurn == true) {
 
-            equation.b = random.nextInt(5);
-            equation.a = random.nextInt(5);
-
             randomResults.getRandomResults(this);
+            equation.b = randomResults.result[5];
+            equation.a = randomResults.result[6];
+
             for(int i=0; i<5; i++){
                 //cheeseObject.isResult[i] = false;
                 cheeseObject.result[i] = randomResults.result[i];
