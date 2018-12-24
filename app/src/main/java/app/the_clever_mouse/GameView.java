@@ -34,7 +34,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public int bottomPanelU = screenHeight-mouse_size;
     public int gamePanelD = bottomPanelU;
 
-    public AnswerCheese[] cheeseObject;
+    public AnswerCheese cheeseObject;
     RandomResults randomResults = new RandomResults();
 
 
@@ -45,14 +45,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public Equation equation;
 
     Random random = new Random();
-
-    public AnswerCheese[] createCheese(){
-        cheeseObject = new AnswerCheese[5];
-        for(int i=0; i<5;i++){
-            cheeseObject[i] = new AnswerCheese(this,cheese,i);
-        }
-        return cheeseObject;
-    }
 
 
 
@@ -77,10 +69,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         thread.setRunning(true);
-        createCheese();
+        cheeseObject = new AnswerCheese(this,cheese);
         thread.start();
-        equation.a = random.nextInt(5);
-        equation.b = random.nextInt(5);
+        cheeseObject.nextTurn = true;
+        //endofTurn();
 
     }
 
@@ -144,12 +136,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         canvas.drawColor(Color.BLACK);
         lvlPrint(canvas);
         lifePrint(canvas);
-        equation._onDraw(canvas);
-
-        for(int i=0; i<5; i++){
-            cheeseObject[i]._onDraw(canvas);
-        }
         endofTurn();
+        equation._onDraw(canvas);
+        cheeseObject._onDraw(canvas);
         player._onDraw(canvas);
 
 
@@ -159,25 +148,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void endofTurn(){
-        if(cheeseObject[1].nextTurn == true){
-            randomResults.getRandomResults(this);
-            equation.a = random.nextInt(5);
+        if(cheeseObject.nextTurn == true) {
+
             equation.b = random.nextInt(5);
-            for(int i=0;i<5;i++){
-                cheeseObject[i].result = equation.result;//randomResults.result[i];
-                if(randomResults.result[i] == equation.result)randomResults.isResult = true;
+            equation.a = random.nextInt(5);
 
+            randomResults.getRandomResults(this);
+            for(int i=0; i<5; i++){
+                //cheeseObject.isResult[i] = false;
+                cheeseObject.result[i] = randomResults.result[i];
+
+                // czyta stare odpowiedzi nie aktualne
+               // if(cheeseObject.result[i] == equation.result)cheeseObject.isResult[i]=true;
+                //else cheeseObject.isResult[i] = false;
             }
 
-            if(randomResults.isResult = false){
-                int x = random.nextInt(4);
-                cheeseObject[x].result = equation.result;
-                randomResults.isResult = true;
-            }
 
-            cheeseObject[1].nextTurn = false;
         }
-    }
+
+            cheeseObject.nextTurn = false;
+        }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

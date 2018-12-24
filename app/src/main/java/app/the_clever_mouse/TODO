@@ -4,3 +4,5 @@
     Przesunac moze z MainActiviti do GameView...
 
 2.  Detekcja kolizji i sprawdzanie wyniku z rownaniem + generator rownan
+
+3. Lepsze losowanie liczb a i b rownania podobnie jak z wynikami.

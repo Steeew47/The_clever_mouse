@@ -21,35 +21,22 @@ public class AnswerCheese {
 
     Random random = new Random();
 
-    public int result = 0;
     int idIndex;
     public boolean nextTurn;
 
+    public boolean isResult[] = new boolean[5];
+    public int result[] = new int[5];
+    int posStart[] = new int[5];
 
 
 
-    public AnswerCheese(GameView gameView, Bitmap bmp,int posStart){
-        idIndex = posStart;
 
-        nextTurn = true;
+    public AnswerCheese(GameView gameView, Bitmap bmp){
 
-        switch(idIndex){
-            case 0:
-                x = 0;
-                break;
-            case 1:
-                x = gameView.mouse_size;
-                break;
-            case 2:
-                x = gameView.mouse_size*2;
-                break;
-            case 3:
-                x = gameView.mouse_size*3;
-                break;
-            case 4:
-                x = gameView.mouse_size*4;
-                break;
+        for(int i=0; i<5; i++){
+            posStart[i] = gameView.mouse_size*i;
         }
+
 
         this.gameView = gameView;
         this.bmp = bmp;
@@ -65,15 +52,31 @@ public class AnswerCheese {
         if(y >= gameView.screenHeight-gameView.mouse_size){
             y = 0;
             nextTurn = true;
-            gameView.equation.genereteNew();
+            //  gameView.equation.genereteNew();
 
         }
     }
 
     public void _onDraw(Canvas canvas){
         update();
-        canvas.drawBitmap(bmp,x,y,null);
-        canvas.drawText(Integer.toString(result),x,y,paint);
+
+
+        for(int i=0; i<5; i++){
+            if(result[i] == gameView.equation.result)isResult[i] = true;
+            else isResult[i] = false;
+        }
+
+        if(!(isResult[0] || isResult[1] || isResult[2] || isResult[3] || isResult[4])){
+            int x = random.nextInt(5);
+            result[x] = gameView.equation.result;
+
+        }
+
+        for(int i=0; i<5; i++){
+            canvas.drawBitmap(bmp,posStart[i],y,null);
+            canvas.drawText(Integer.toString(result[i]),posStart[i],y,paint);
+            canvas.drawText(Boolean.toString(isResult[i]),posStart[i],y+50,paint);
+        }
 
     }
 

@@ -18,6 +18,8 @@ public class Equation {
 
 
     public void genereteNew(){
+        this.a = random.nextInt(10);
+        this.b = random.nextInt(10);
 
     }
 
