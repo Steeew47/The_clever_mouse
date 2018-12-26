@@ -18,6 +18,7 @@ public class AnswerCheese {
     int y = 0;
     int ySpeed = 4;
     private Paint paint;
+    public int trueResultPosition = 0;
 
     Random random = new Random();
 
@@ -49,33 +50,48 @@ public class AnswerCheese {
     public void update(){
 
         y = y + ySpeed;
-        if(y >= gameView.screenHeight-gameView.mouse_size){
+
+        //TODO : rzeba dostosowac rozmiary sera; poprawna kolizja na styku 2 obiektow
+        if(y > gameView.screenHeight-300-2*gameView.mouse_size-MainActivity.player.topPos){
             y = 0;
             nextTurn = true;
+            //curretPos nie dziala
+            if(gameView.player.currentPos==trueResultPosition){
+                MainActivity.player.score = MainActivity.player.score+100;
+            }
+            else{
+                MainActivity.player.playerLife--;
+            }
             //  gameView.equation.genereteNew();
 
         }
     }
 
     public void _onDraw(Canvas canvas){
-        update();
 
 
         for(int i=0; i<5; i++){
-            if(result[i] == gameView.equation.result)isResult[i] = true;
+            if(result[i] == gameView.equation.result){
+                isResult[i] = true;
+                trueResultPosition = posStart[i];
+            }
             else isResult[i] = false;
         }
 
         if(!(isResult[0] || isResult[1] || isResult[2] || isResult[3] || isResult[4])){
             int x = random.nextInt(5);
             result[x] = gameView.equation.result;
+            trueResultPosition = posStart[x];
 
         }
 
+        update();
         for(int i=0; i<5; i++){
             canvas.drawBitmap(bmp,posStart[i],y,null);
             canvas.drawText(Integer.toString(result[i]),posStart[i],y,paint);
             canvas.drawText(Boolean.toString(isResult[i]),posStart[i],y+50,paint);
+            canvas.drawText(Integer.toString(MainActivity.player.currentPos),posStart[i],y+100,paint);
+            canvas.drawText(Integer.toString(trueResultPosition),posStart[i],y+150,paint);
         }
 
     }

@@ -40,7 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     private SurfaceHolder holder;
     private GameThread thread;
-    private Player player;
+    public Player player;
     private AnswerCheese answerCheese;
     public Equation equation;
 
@@ -128,7 +128,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         canvas.drawText(levelString, screenWidth/2, 50, paint);
         canvas.drawText(Integer.toString(MainActivity.player.score),screenWidth/2,150,paint);
         canvas.drawText(Boolean.toString(this.randomResults.isResult),screenWidth/2,200,paint);
+        canvas.drawText(Integer.toString(MainActivity.player.currentPos),screenWidth/2,252,paint);
     }
+
 
 
     protected void _onDraw(Canvas canvas) {
