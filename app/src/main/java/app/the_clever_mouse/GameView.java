@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static app.the_clever_mouse.GameThread.canvas;
+
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
@@ -27,6 +29,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public int screenWidth = getResources().getDisplayMetrics().widthPixels;
     public int mouse_size = screenWidth/5;
     public int heart_size = screenWidth/10;
+    private long lastClick;
+    public float whereClickX;
 
     public int topPanelU = 0;
     public int topPanelD ;
@@ -72,7 +76,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         cheeseObject = new AnswerCheese(this,cheese);
         thread.start();
         cheeseObject.nextTurn = true;
-        //endofTurn();
+
 
     }
 
@@ -129,7 +133,40 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         canvas.drawText(Integer.toString(MainActivity.player.score),screenWidth/2,150,paint);
         canvas.drawText(Boolean.toString(this.randomResults.isResult),screenWidth/2,200,paint);
         canvas.drawText(Integer.toString(MainActivity.player.currentPos),screenWidth/2,252,paint);
+        canvas.drawText(Float.toString(whereClickX),screenWidth/2,300,paint);
     }
+
+
+
+    public void endofTurn(){
+        if(cheeseObject.nextTurn == true) {
+
+            randomResults.getRandomResults(this);
+            equation.b = randomResults.result[5];
+            equation.a = randomResults.result[6];
+
+            for(int i=0; i<5; i++){
+                cheeseObject.result[i] = randomResults.result[i];
+            }
+
+        }cheeseObject.nextTurn = false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (System.currentTimeMillis() - lastClick > 50) {
+            lastClick = System.currentTimeMillis();
+            synchronized (getHolder()) {
+                whereClickX = event.getX();
+                player.setPosition(event.getX(),event.getY());
+
+            }
+        }
+        return true;
+    }
+
+
+
 
 
 
@@ -143,38 +180,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         cheeseObject._onDraw(canvas);
         player._onDraw(canvas);
 
-
-
-
-
     }
 
-    public void endofTurn(){
-        if(cheeseObject.nextTurn == true) {
 
-            randomResults.getRandomResults(this);
-            equation.b = randomResults.result[5];
-            equation.a = randomResults.result[6];
-
-            for(int i=0; i<5; i++){
-                //cheeseObject.isResult[i] = false;
-                cheeseObject.result[i] = randomResults.result[i];
-
-                // czyta stare odpowiedzi nie aktualne
-               // if(cheeseObject.result[i] == equation.result)cheeseObject.isResult[i]=true;
-                //else cheeseObject.isResult[i] = false;
-            }
-
-
-        }
-
-            cheeseObject.nextTurn = false;
-        }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
 
 }
 

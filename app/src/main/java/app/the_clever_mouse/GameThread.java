@@ -5,7 +5,7 @@ import android.view.SurfaceHolder;
 
 public class GameThread extends Thread {
 
-    private int FPS = 60;
+    private int FPS = 120;
     private double avgFPS;
     private SurfaceHolder surfaceHolder;
     private GameView gameView;

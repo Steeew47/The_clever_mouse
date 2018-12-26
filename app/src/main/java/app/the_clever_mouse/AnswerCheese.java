@@ -55,14 +55,14 @@ public class AnswerCheese {
         if(y > gameView.screenHeight-300-2*gameView.mouse_size-MainActivity.player.topPos){
             y = 0;
             nextTurn = true;
-            //curretPos nie dziala
+
             if(gameView.player.currentPos==trueResultPosition){
                 MainActivity.player.score = MainActivity.player.score+100;
+                ySpeed++;
             }
             else{
                 MainActivity.player.playerLife--;
             }
-            //  gameView.equation.genereteNew();
 
         }
     }
@@ -89,9 +89,9 @@ public class AnswerCheese {
         for(int i=0; i<5; i++){
             canvas.drawBitmap(bmp,posStart[i],y,null);
             canvas.drawText(Integer.toString(result[i]),posStart[i],y,paint);
-            canvas.drawText(Boolean.toString(isResult[i]),posStart[i],y+50,paint);
-            canvas.drawText(Integer.toString(MainActivity.player.currentPos),posStart[i],y+100,paint);
-            canvas.drawText(Integer.toString(trueResultPosition),posStart[i],y+150,paint);
+            //canvas.drawText(Boolean.toString(isResult[i]),posStart[i],y+50,paint);
+            //canvas.drawText(Integer.toString(MainActivity.player.currentPos),posStart[i],y+100,paint);
+            //canvas.drawText(Integer.toString(trueResultPosition),posStart[i],y+150,paint);
         }
 
     }

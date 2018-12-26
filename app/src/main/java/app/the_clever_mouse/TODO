@@ -3,6 +3,5 @@
 1.  Wolna detekcja przesuniecia palca po ekranie. Mały refresh rate ?
     Przesunac moze z MainActiviti do GameView...
 
-2.  Detekcja kolizji i sprawdzanie wyniku z rownaniem + generator rownan
-
-3. Lepsze losowanie liczb a i b rownania podobnie jak z wynikami.
+2. Dodac poziomy trudnosci
+3. Menu startowe i koniec gry

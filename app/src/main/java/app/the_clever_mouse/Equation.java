@@ -40,7 +40,7 @@ public class Equation {
 
     public void _onDraw(Canvas canvas){
         update();
-        canvas.drawText(Integer.toString(a)+" + "+Integer.toString(b)+" = "+Integer.toString(result),400,400,paint);
+        canvas.drawText(Integer.toString(a)+" + "+Integer.toString(b)+" = ? ",400,400,paint);
     }
 
 }

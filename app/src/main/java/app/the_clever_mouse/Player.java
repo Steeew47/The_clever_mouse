@@ -41,8 +41,19 @@ public class Player {
 
     }
 
-    private void update(){
+    public void setPosition(float x, float y){
+        if(x<mousePos[1])currentPos = mousePos[0];
+        if(x >= mousePos[1] && x<mousePos[2])currentPos = mousePos[1];
+        if(x >= mousePos[2] && x<mousePos[3])currentPos = mousePos[2];
+        if(x >= mousePos[3] && x<mousePos[4])currentPos = mousePos[3];
+        if(x >= mousePos[4])currentPos = mousePos[4];
 
+
+    }
+
+
+    private void update(){
+    /*
         if(MainActivity.player.moveDirection == 1){
             if(currentPos<mousePos[4]) {
                 currentPos = currentPos + gameView.mouse_size;
@@ -54,7 +65,7 @@ public class Player {
             }
         }
 
-
+*/
     }
 
     public void _onDraw(Canvas canvas){
