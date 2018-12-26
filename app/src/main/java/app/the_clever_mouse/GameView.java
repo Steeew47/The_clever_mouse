@@ -8,17 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.content.Context;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import static app.the_clever_mouse.GameThread.canvas;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
@@ -32,11 +23,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private long lastClick;
     public float whereClickX;
 
-    public int topPanelU = 0;
-    public int topPanelD ;
-    public int bottomPanelD = screenHeight;
-    public int bottomPanelU = screenHeight-mouse_size;
-    public int gamePanelD = bottomPanelU;
 
     public AnswerCheese cheeseObject;
     RandomResults randomResults = new RandomResults();
@@ -44,11 +30,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     private SurfaceHolder holder;
     private GameThread thread;
-    public Player player;
-    private AnswerCheese answerCheese;
+    public Player player;;
     public Equation equation;
 
-    Random random = new Random();
 
 
 
@@ -158,7 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             lastClick = System.currentTimeMillis();
             synchronized (getHolder()) {
                 whereClickX = event.getX();
-                player.setPosition(event.getX(),event.getY());
+                player.setPosition(event.getX());
 
             }
         }

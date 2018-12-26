@@ -2,13 +2,12 @@ package app.the_clever_mouse;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
+
 
 public class RandomResults{
 
     public boolean isResult;
     public int[] result = new int[7];
-    Random random = new Random();
 
     public RandomResults(){}
 

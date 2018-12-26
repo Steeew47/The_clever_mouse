@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 public class Player {
 
     int currentPos;
-    int moveDirection;
 
     int level = 1;
     int playerLife = 3;
@@ -41,7 +40,7 @@ public class Player {
 
     }
 
-    public void setPosition(float x, float y){
+    public void setPosition(float x){
         if(x<mousePos[1])currentPos = mousePos[0];
         if(x >= mousePos[1] && x<mousePos[2])currentPos = mousePos[1];
         if(x >= mousePos[2] && x<mousePos[3])currentPos = mousePos[2];
@@ -53,19 +52,7 @@ public class Player {
 
 
     private void update(){
-    /*
-        if(MainActivity.player.moveDirection == 1){
-            if(currentPos<mousePos[4]) {
-                currentPos = currentPos + gameView.mouse_size;
-            }
-        }
-        if(MainActivity.player.moveDirection == -1){
-            if(currentPos>mousePos[0]){
-                currentPos = currentPos - gameView.mouse_size;
-            }
-        }
 
-*/
     }
 
     public void _onDraw(Canvas canvas){

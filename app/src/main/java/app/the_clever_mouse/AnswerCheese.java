@@ -22,7 +22,6 @@ public class AnswerCheese {
 
     Random random = new Random();
 
-    int idIndex;
     public boolean nextTurn;
 
     public boolean isResult[] = new boolean[5];

@@ -4,24 +4,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.Random;
 
 public class Equation {
 
     private GameView gameView;
-    public Random random;
     private Paint paint;
 
-    int a,b,sign;
+    int a,b;
     int result;
 
 
 
-    public void genereteNew(){
-        this.a = random.nextInt(10);
-        this.b = random.nextInt(10);
-
-    }
 
 
     public Equation(GameView gameView) {
