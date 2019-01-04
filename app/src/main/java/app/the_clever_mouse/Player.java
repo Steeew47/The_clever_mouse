@@ -52,6 +52,14 @@ public class Player {
 
 
     private void update(){
+        if(MainActivity.player.score == 300){
+            MainActivity.player.level = 2;
+            gameView.randomResults.howBig = 20;
+        }
+        if(MainActivity.player.score == 600){
+            MainActivity.player.level = 3;
+            gameView.randomResults.howBig = 30;
+        }
 
     }
 

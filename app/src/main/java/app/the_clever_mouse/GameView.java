@@ -1,20 +1,24 @@
 package app.the_clever_mouse;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
+import java.util.Random;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
-    private Bitmap mouse, heart, cheese;
+    private Bitmap mouse, heart, cheese, bg;
 
     public int screenHeight = getResources().getDisplayMetrics().heightPixels;
     public int screenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -27,7 +31,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public AnswerCheese cheeseObject;
     RandomResults randomResults = new RandomResults();
 
-
+    private Random random;
     private SurfaceHolder holder;
     private GameThread thread;
     public Player player;;
@@ -43,7 +47,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 
         thread = new GameThread(getHolder(),this);
-
+        bg = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.bg),screenWidth,screenHeight,false);
         mouse = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mouse),mouse_size,mouse_size+125,false);
         heart = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.heart),heart_size,heart_size,false);
         setFocusable(true);
@@ -51,6 +55,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
         player = new Player(this,mouse);
         equation = new Equation(this);
+
+
     }
 
 
@@ -60,7 +66,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         cheeseObject = new AnswerCheese(this,cheese);
         thread.start();
         cheeseObject.nextTurn = true;
-
 
     }
 
@@ -87,6 +92,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update(){
 
+
     }
 
     public void lifePrint(Canvas canvas){
@@ -101,23 +107,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         }
         if(MainActivity.player.playerLife == 1){
             canvas.drawBitmap(heart,0,10,null);
+        }
+        if(MainActivity.player.playerLife == 0){
+            thread.setRunning(false);
+
+
 
         }
+
 
     }
     public void lvlPrint(Canvas canvas){
         Paint paint = new Paint();
+        //paint.setColor(Color.BLACK);
+        //paint.setStyle(Paint.Style.FILL);
+        //canvas.drawPaint(paint);
         paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawPaint(paint);
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(38);
+        paint.setStrokeWidth(3);
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.SQUARE);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setTextSize(60);
         String levelString = "Level : "+ Integer.toString(MainActivity.player.level);
-        canvas.drawText(levelString, screenWidth/2, 50, paint);
-        canvas.drawText(Integer.toString(MainActivity.player.score),screenWidth/2,150,paint);
-        canvas.drawText(Boolean.toString(this.randomResults.isResult),screenWidth/2,200,paint);
-        canvas.drawText(Integer.toString(MainActivity.player.currentPos),screenWidth/2,252,paint);
-        canvas.drawText(Float.toString(whereClickX),screenWidth/2,300,paint);
+        canvas.drawText(levelString, screenWidth/2+150, 50, paint);
+        canvas.drawText("Score : " +Integer.toString(MainActivity.player.score),screenWidth/2+150,50+60,paint);
+        //canvas.drawText(Boolean.toString(this.randomResults.isResult),screenWidth/2,200,paint);
+        //canvas.drawText(Float.toString(whereClickX),screenWidth/2,300,paint);
     }
 
 
@@ -125,7 +140,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void endofTurn(){
         if(cheeseObject.nextTurn == true) {
 
+
             randomResults.getRandomResults(this);
+            equation.equationChar = randomResults.randomChar[0];
             equation.b = randomResults.result[5];
             equation.a = randomResults.result[6];
 
@@ -156,13 +173,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     protected void _onDraw(Canvas canvas) {
 
-        canvas.drawColor(Color.BLACK);
+        //canvas.drawColor(Color.BLACK);
+        canvas.drawBitmap(bg,0,0,null);
         lvlPrint(canvas);
         lifePrint(canvas);
         endofTurn();
         equation._onDraw(canvas);
         cheeseObject._onDraw(canvas);
         player._onDraw(canvas);
+        update();
+
 
     }
 

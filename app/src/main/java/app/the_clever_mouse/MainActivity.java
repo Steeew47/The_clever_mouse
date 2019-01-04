@@ -25,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
 
         player = new Player();
 
+
         setContentView(R.layout.activity_main);
         setContentView(gameView);
+        if(MainActivity.player.playerLife == 0){
+            setContentView(gameView);
+        }
 
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

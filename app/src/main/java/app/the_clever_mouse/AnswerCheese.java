@@ -18,6 +18,7 @@ public class AnswerCheese {
     int y = 0;
     int ySpeed = 4;
     private Paint paint;
+    private Paint paint2;
     public int trueResultPosition = 0;
 
     Random random = new Random();
@@ -41,8 +42,16 @@ public class AnswerCheese {
         this.gameView = gameView;
         this.bmp = bmp;
         paint = new Paint();
+        paint.setStrokeWidth(10);
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.SQUARE);
+        paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.WHITE);
-        paint.setTextSize(70);
+        paint.setTextSize(150);
+
+        paint2 = new Paint();
+        paint2.setTextSize(150);
+        paint2.setColor(Color.BLACK);
 
     }
 
@@ -57,7 +66,7 @@ public class AnswerCheese {
 
             if(gameView.player.currentPos==trueResultPosition){
                 MainActivity.player.score = MainActivity.player.score+100;
-                ySpeed++;
+                //ySpeed++;
             }
             else{
                 MainActivity.player.playerLife--;
@@ -87,7 +96,8 @@ public class AnswerCheese {
         update();
         for(int i=0; i<5; i++){
             canvas.drawBitmap(bmp,posStart[i],y,null);
-            canvas.drawText(Integer.toString(result[i]),posStart[i],y,paint);
+            canvas.drawText(Integer.toString(result[i]),posStart[i]+60,y+250,paint);
+            canvas.drawText(Integer.toString(result[i]),posStart[i]+60,y+250,paint2);
             //canvas.drawText(Boolean.toString(isResult[i]),posStart[i],y+50,paint);
             //canvas.drawText(Integer.toString(MainActivity.player.currentPos),posStart[i],y+100,paint);
             //canvas.drawText(Integer.toString(trueResultPosition),posStart[i],y+150,paint);
