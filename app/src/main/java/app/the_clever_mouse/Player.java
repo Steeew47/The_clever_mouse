@@ -3,19 +3,30 @@ package app.the_clever_mouse;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+
+/**
+ * Parametry gracza.
+ */
+
 public class Player {
 
-    int currentPos;
-
-    int level = 1;
-    int playerLife = 3;
-    int score = 0;
+    /**Aktualna pozycja gracza*/
+    public int currentPos;
+    /**Aktualny poziom gry*/
+    public int level = 1;
+    /**Aktualny poziom zycia gracza*/
+    public int playerLife = 3;
+    /**Aktualny stan zdobytych punktow*/
+    public int score = 0;
 
 
     private GameView gameView;
+    private AnswerCheese answerCheese;
     private Bitmap bmp;
 
+    /**Parametr odpowiedzialny za wyswietlanie obrazka gracza na dole ekranu*/
     public int topPos;
+    /**Tablica 5 mozliwych pozycji gracza tak aby wszystkie zmiescily sie na ekranie*/
     public int[] mousePos = new int[5];
 
 
@@ -40,6 +51,10 @@ public class Player {
 
     }
 
+    /**
+     * Ustalenie pozycji gracza
+     * @param x
+     */
     public void setPosition(float x){
         if(x<mousePos[1])currentPos = mousePos[0];
         if(x >= mousePos[1] && x<mousePos[2])currentPos = mousePos[1];
@@ -50,7 +65,9 @@ public class Player {
 
     }
 
-
+    /**
+     * Ustalanie dla jakich wartosci puntkow ma nastapic zmiana poziomu trudnosci
+     */
     private void update(){
         if(MainActivity.player.score == 300){
             MainActivity.player.level = 2;
@@ -60,9 +77,33 @@ public class Player {
             MainActivity.player.level = 3;
             gameView.randomResults.howBig = 30;
         }
+        if(MainActivity.player.score == 900){
+            MainActivity.player.level = 4;
+            gameView.randomResults.howBig = 40;
+
+        }
+        if(MainActivity.player.score == 1200){
+            MainActivity.player.level = 5;
+            gameView.randomResults.howBig = 50;
+
+        }
+        if(MainActivity.player.score == 1500){
+            MainActivity.player.level = 5;
+            gameView.randomResults.howBig = 60;
+
+        }
+        if(MainActivity.player.score == 1800){
+            MainActivity.player.level = 6;
+            gameView.randomResults.howBig = 70;
+
+        }
 
     }
 
+    /**
+     * Wyswietlanie obiektu gracza na ekranie
+     * @param canvas
+     */
     public void _onDraw(Canvas canvas){
         update();
         canvas.drawBitmap(bmp,currentPos,topPos,null);

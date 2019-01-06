@@ -3,17 +3,23 @@ package app.the_clever_mouse;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/** Losowanie liczb z pewnego przedzialu wykorzystywane w tworzeniu rownania oraz odpowiedzi do rownania */
 
 public class RandomResults{
 
-    public boolean isResult;
+    /**Tablica na 7 losowych liczb*/
     public int[] result = new int[7];
+    /**Tablica na 2 losowe liczby odpowiedzialne za znak tworzonego rownania*/
     public int[] randomChar = new int[2];
+    /**Jak wielki ma byc przedzial losowanych liczb*/
     public int howBig = 10;
 
     public RandomResults(){}
 
-
+    /**
+     * Wymuszenie losowania liczb
+     * @param gameView
+     */
     public void getRandomResults(GameView gameView){
 
 

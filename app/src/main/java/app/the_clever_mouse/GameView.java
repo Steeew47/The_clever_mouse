@@ -1,5 +1,6 @@
 package app.the_clever_mouse;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,36 +8,51 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
-import java.util.Random;
 
+/**
+ * Glowna klasa zarzadzajaca wyswietlaniem na planszy elementow.
+ */
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     private Bitmap mouse, heart, cheese, bg;
-
-    public int screenHeight = getResources().getDisplayMetrics().heightPixels;
-    public int screenWidth = getResources().getDisplayMetrics().widthPixels;
-    public int mouse_size = screenWidth/5;
-    public int heart_size = screenWidth/10;
     private long lastClick;
-    public float whereClickX;
-
-
-    public AnswerCheese cheeseObject;
-    RandomResults randomResults = new RandomResults();
-
-    private Random random;
     private SurfaceHolder holder;
-    private GameThread thread;
-    public Player player;;
-    public Equation equation;
+    private boolean alreadyExecuted;
 
+    /**Wysokosc ekranu w pixelach*/
+    public int screenHeight = getResources().getDisplayMetrics().heightPixels;
+    /**Szerokosc ekranu w pixelach*/
+    public int screenWidth = getResources().getDisplayMetrics().widthPixels;
+    /**Rozmiary obrazku myszy*/
+    public int mouse_size = screenWidth/5;
+    /**Rozmiary obrazku sera*/
+    public int heart_size = screenWidth/10;
+    /**Wybor pozycji ruchu gracza*/
+    public float whereClickX;
+    /**Akctivity zwiazane z ekranem koncowym*/
+    public Activity a;
+    /** Ustalenie statusu dzialania gry */
+    public GameState state = GameState.Ready;
+    /** Obiekt losowych odpowiedzi do rownania*/
+    public AnswerCheese cheeseObject;
+    /** Obiekt silnika gry */
+    public GameThread thread;
+    /** Obiekt zwiazany z losowym tworzeniem rownan do rozwiazania */
+    public Equation equation;
+    /** Obiekt gracza */
+    public Player player;
+
+    /** Zmienna okreslajaca aktualny stan gry*/
+    public enum GameState{
+        Ready,Running,Pause,GameOver}
+
+    RandomResults randomResults = new RandomResults();
 
 
 
@@ -44,6 +60,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         super(context);
         holder = getHolder();
         getHolder().addCallback(this);
+        a = (Activity)context;
 
 
         thread = new GameThread(getHolder(),this);
@@ -59,21 +76,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     }
 
-
+    /**
+     * Stworzona powierzchnia planszy
+     * @param holder
+     */
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         thread.setRunning(true);
         cheeseObject = new AnswerCheese(this,cheese);
         thread.start();
+
         cheeseObject.nextTurn = true;
 
     }
 
+    /**
+     * Zmiana powierzchni planszy
+     * @param holder
+     * @param format
+     * @param width
+     * @param height
+     */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
 
     }
 
+    /**
+     * Znisczenie powierzchni planszy
+     * @param holder
+     */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
         boolean retry = true;
@@ -88,13 +120,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
+    /**
+     * Aktualizacja i sprawdzanie warunku zakonczenia gry.
+     * @param canvas
+     */
+    public void update(Canvas canvas){
+        if(MainActivity.player.playerLife == 0){
+            //thread.setRunning(false);
+            state = GameState.GameOver;
+            whereClickX = 0;
 
-
-    public void update(){
-
-
+        }
     }
 
+    /**
+     * Rysowania serc zwiazanych z poziomem zycia gracza.
+     * @param canvas
+     */
     public void lifePrint(Canvas canvas){
         if(MainActivity.player.playerLife == 3){
             canvas.drawBitmap(heart,0,10,null);
@@ -108,20 +150,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         if(MainActivity.player.playerLife == 1){
             canvas.drawBitmap(heart,0,10,null);
         }
-        if(MainActivity.player.playerLife == 0){
-            thread.setRunning(false);
-
-
-
-        }
-
 
     }
+
+    /**
+     * Wyswietlanie poziomu trudnosci oraz zdobytych punktow.
+     * @param canvas
+     */
     public void lvlPrint(Canvas canvas){
-        Paint paint = new Paint();
         //paint.setColor(Color.BLACK);
         //paint.setStyle(Paint.Style.FILL);
         //canvas.drawPaint(paint);
+        Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(3);
         paint.setAntiAlias(true);
@@ -135,8 +175,49 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         //canvas.drawText(Float.toString(whereClickX),screenWidth/2,300,paint);
     }
 
+    /**
+     * Ekran koncowy, zakonczenie gry zwiazane z utraceniem wszystkich zyc.
+     * @param canvas
+     */
+    public void gameOverPrint(Canvas canvas){
+
+        Rect bounds = new Rect();
+
+        Paint paint = new Paint();
+        paint.setStrokeWidth(10);
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.SQUARE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(150);
+
+        Paint paint2 = new Paint();
+        paint2.setTextSize(150);
+        paint2.setColor(Color.BLACK);
+
+        String textGameOver = "GAME OVER";
+        String textScore = "SCORE : " + Integer.toString(MainActivity.player.score);
+        String textLevel = "LEVEL : " + Integer.toString(MainActivity.player.level);
+        String textBack = "click anywhere to back";
+
+        paint.getTextBounds(textGameOver,0,textGameOver.length(),bounds);
+
+        canvas.drawText(textGameOver,screenWidth/2-bounds.width()/2,screenHeight/2,paint);
+        canvas.drawText(textGameOver,screenWidth/2-bounds.width()/2,screenHeight/2,paint2);
+
+        paint2.setTextSize(100);
+        canvas.drawText(textScore,screenWidth/2-bounds.width()/2,screenHeight/2+bounds.height(),paint2);
+        canvas.drawText(textLevel,screenWidth/2-bounds.width()/2,screenHeight/2+bounds.height()+100,paint2);
+
+        paint2.setTextSize(50);
+        canvas.drawText(textBack,screenWidth/2-bounds.width()/2+150,screenHeight/2+bounds.height()+400,paint2);
+        //canvas.drawBitmap(menu,0,0,null);
+    }
 
 
+    /**
+     * Koniec rundy czyli udzielnie odpowiedzi na wyswietlane rownanie.
+     */
     public void endofTurn(){
         if(cheeseObject.nextTurn == true) {
 
@@ -153,6 +234,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         }cheeseObject.nextTurn = false;
     }
 
+
+    /**
+     * Detekcja klikniecia w ekran odpowiedzialnego za zmiane kierunku ruchu postaci - gracza.
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (System.currentTimeMillis() - lastClick > 50) {
@@ -167,26 +254,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
 
-
-
-
+    /**
+     * Ciagle wyswietlanie wszystkich elementow gry.
+     * @param canvas
+     */
 
     protected void _onDraw(Canvas canvas) {
 
         //canvas.drawColor(Color.BLACK);
-        canvas.drawBitmap(bg,0,0,null);
-        lvlPrint(canvas);
-        lifePrint(canvas);
-        endofTurn();
-        equation._onDraw(canvas);
-        cheeseObject._onDraw(canvas);
-        player._onDraw(canvas);
-        update();
+        if(state == GameState.Ready){
+            update(canvas);
+            canvas.drawBitmap(bg,0,0,null);
+            lvlPrint(canvas);
+            lifePrint(canvas);
+            endofTurn();
+            equation._onDraw(canvas);
+            cheeseObject._onDraw(canvas);
+            player._onDraw(canvas);
+        }
+        if(state == GameState.GameOver){
 
 
+            canvas.drawBitmap(bg,0,0,null);
+            gameOverPrint(canvas);
+
+
+            if(whereClickX>0 && !alreadyExecuted){
+                Intent intent = new Intent(a,MainActivity.class);
+                a.startActivity(intent);
+                alreadyExecuted = true;
+            }
+        }
     }
-
-
 
 }
 

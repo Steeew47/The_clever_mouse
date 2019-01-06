@@ -3,6 +3,10 @@ package app.the_clever_mouse;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+
+/**
+ * Silnik gry.
+ */
 public class GameThread extends Thread {
 
     private int FPS = 120;
@@ -10,7 +14,10 @@ public class GameThread extends Thread {
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
     private AnswerCheese answerCheese;
-    private boolean running;
+
+    /**Zmienna okreslajaca czy gra jest uruchomiona*/
+    public boolean running;
+    /**Glowna plansza gry*/
     public static Canvas canvas;
 
 
@@ -19,6 +26,11 @@ public class GameThread extends Thread {
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
     }
+
+
+    /**
+     * Start gry.
+     */
 
     @Override
     public void run(){
@@ -70,10 +82,14 @@ public class GameThread extends Thread {
 
             }
 
-            }
+        }
 
     }
 
+    /**
+     * Status dzialania gry, uruchomiona czy zatrzymana.
+     * @param isRunning czy gra jest uruchomiona.
+     */
     public void setRunning(boolean isRunning){
         running = isRunning;
     }

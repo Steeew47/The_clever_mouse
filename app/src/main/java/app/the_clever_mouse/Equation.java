@@ -4,21 +4,25 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.Random;
+
+/**
+ * Rysowanie rownania do rozwiazania na srodku ekranu.
+ */
 
 
 public class Equation {
 
     private GameView gameView;
     private Paint paint, paint2;
-    private Random random;
 
     int a,b;
     int result;
     int equationChar;
 
-    //equationChar = 1 - DODAWANIE
-    //equationChar = 2 - ODEJMOWANIE
+    /**
+     * Ustawenie koloru, stylu, rozmiaru wyswietlanego tekstu z rownaniem.
+     * @param gameView
+     */
 
     public Equation(GameView gameView) {
         this.gameView = gameView;
@@ -34,10 +38,13 @@ public class Equation {
         paint2.setTextSize(200);
         paint2.setColor(Color.BLACK);
 
-
-
     }
 
+
+    /**
+     *
+     * @param canvas
+     */
     private void update(Canvas canvas){
 
 
@@ -62,6 +69,10 @@ public class Equation {
 
     }
 
+    /**
+     * Rysowanie rownania na ekranie
+     * @param canvas
+     */
     public void _onDraw(Canvas canvas){
         update(canvas);
     }
