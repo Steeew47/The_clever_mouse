@@ -49,7 +49,6 @@ public class GameThread extends Thread {
                 canvas = gameView.getHolder().lockCanvas();
                 synchronized (gameView.getHolder()){
                     gameView._onDraw(canvas);
-                    //MainActivity.player.score ++;
                 }
             }catch(Exception e){
                 e.printStackTrace();

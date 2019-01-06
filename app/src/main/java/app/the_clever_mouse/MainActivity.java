@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //gameView = new GameView(this);
 
         player = new Player();
 
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //setContentView(gameView);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 

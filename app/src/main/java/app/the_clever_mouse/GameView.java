@@ -126,7 +126,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
      */
     public void update(Canvas canvas){
         if(MainActivity.player.playerLife == 0){
-            //thread.setRunning(false);
             state = GameState.GameOver;
             whereClickX = 0;
 
@@ -152,15 +151,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         }
 
     }
-
     /**
      * Wyswietlanie poziomu trudnosci oraz zdobytych punktow.
      * @param canvas
      */
     public void lvlPrint(Canvas canvas){
-        //paint.setColor(Color.BLACK);
-        //paint.setStyle(Paint.Style.FILL);
-        //canvas.drawPaint(paint);
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(3);
@@ -171,8 +166,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         String levelString = "Level : "+ Integer.toString(MainActivity.player.level);
         canvas.drawText(levelString, screenWidth/2+150, 50, paint);
         canvas.drawText("Score : " +Integer.toString(MainActivity.player.score),screenWidth/2+150,50+60,paint);
-        //canvas.drawText(Boolean.toString(this.randomResults.isResult),screenWidth/2,200,paint);
-        //canvas.drawText(Float.toString(whereClickX),screenWidth/2,300,paint);
     }
 
     /**
@@ -211,7 +204,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
         paint2.setTextSize(50);
         canvas.drawText(textBack,screenWidth/2-bounds.width()/2+150,screenHeight/2+bounds.height()+400,paint2);
-        //canvas.drawBitmap(menu,0,0,null);
     }
 
 
@@ -261,7 +253,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     protected void _onDraw(Canvas canvas) {
 
-        //canvas.drawColor(Color.BLACK);
         if(state == GameState.Ready){
             update(canvas);
             canvas.drawBitmap(bg,0,0,null);
